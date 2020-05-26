@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "script": "tsc",
-    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts"
+    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,10 @@
   "dependencies": {
     "date-fns": "^2.13.0",
     "express": "^4.17.1",
+    "pg": "^8.2.1",
     "prettier": "^2.0.5",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.25",
     "uuidv4": "^6.0.8"
   },
   "devDependencies": {
