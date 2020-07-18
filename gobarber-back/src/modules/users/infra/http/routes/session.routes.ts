@@ -1,17 +1,14 @@
 import { Router } from "express";
-
-import UsersRepository from "@modules/users/infra/typeorm/repositories/UsersRepository";
+import { container } from "tsyringe";
 
 import SessionService from "@modules/users/services/CreateSessionService";
 
 const sessionRouter = Router();
 
 sessionRouter.post("/", async (request, response) => {
-  const usersRepository = new UsersRepository();
-
   const { email, password } = request.body;
 
-  const sessionService = new SessionService(usersRepository);
+  const sessionService = container.resolve(SessionService);
 
   const { user, token } = await sessionService.execute({
     email,

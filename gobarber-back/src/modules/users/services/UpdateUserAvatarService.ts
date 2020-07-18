@@ -1,6 +1,7 @@
-import { getRepository } from "typeorm";
 import path from "path";
 import fs from "fs";
+
+import { inject, injectable } from "tsyringe";
 
 import uploadConfig from "@config/upload";
 import AppError from "@shared/errors/AppError";
@@ -13,8 +14,12 @@ interface IRequestDTO {
   avatarFileName: string;
 }
 
+@injectable()
 class UpdateUserAvatarService {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    @inject("UsersRepository")
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({
     user_id,

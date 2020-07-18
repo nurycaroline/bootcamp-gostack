@@ -1,6 +1,8 @@
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
+import { inject, injectable } from "tsyringe";
+
 import authConfig from "@config/auth";
 import AppError from "@shared/errors/AppError";
 
@@ -17,8 +19,12 @@ interface IResponseDTO {
   token: string;
 }
 
+@injectable()
 class CreateSessionService {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    @inject("UsersRepository")
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({
     email,
