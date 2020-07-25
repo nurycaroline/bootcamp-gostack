@@ -34,4 +34,48 @@ describe("CreateSession", () => {
     expect(response).toHaveProperty("token");
     expect(response.user).toEqual(user);
   });
+
+  it("should not be able to authenticate with wrong password", async () => {
+    const fakeUserRepository = new FakeUserRepository();
+    const fakeHashProvider = new FakeHashProvider();
+
+    const createSessionService = new CreateSessionService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
+    const createUserService = new CreateUserService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
+
+    await createUserService.execute({
+      name: "John Doe",
+      email: "johndoe@gmail.com",
+      password: "123456",
+    });
+
+    expect(
+      createSessionService.execute({
+        email: "johndoe@gmail.com",
+        password: "wrong-password",
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("should be able to authenticate", async () => {
+    const fakeUserRepository = new FakeUserRepository();
+    const fakeHashProvider = new FakeHashProvider();
+
+    const createSessionService = new CreateSessionService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
+
+    expect(
+      createSessionService.execute({
+        email: "johndoe@gmail.com",
+        password: "123456",
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
