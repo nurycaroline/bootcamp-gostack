@@ -32,11 +32,11 @@ class UsersRepository implements IUsersRepository {
   }
 
   public async findByDate(date: Date): Promise<User | undefined> {
-    const findAppointment = await this.ormRepository.findOne({
+    const findUser = await this.ormRepository.findOne({
       where: { date },
     });
 
-    return findAppointment;
+    return findUser;
   }
 
   public async save(user: User): Promise<User> {
