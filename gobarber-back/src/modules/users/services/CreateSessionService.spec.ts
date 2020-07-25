@@ -3,13 +3,18 @@ import AppError from "@shared/errors/AppError";
 import FakeUserRepository from "@modules/users/repositories/fakes/FakeUserRepository";
 import FakeHashProvider from "@modules/users/providers/HashProvider/fakes/FakeHashProvider";
 
+import CreateSessionService from "./CreateSessionService";
 import CreateUserService from "./CreateUserService";
 
-describe("CreateUserService", () => {
-  it("should be able to create a new user", async () => {
+describe("CreateSession", () => {
+  it("should be able to authenticate", async () => {
     const fakeUserRepository = new FakeUserRepository();
     const fakeHashProvider = new FakeHashProvider();
 
+    const createSessionService = new CreateSessionService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
     const createUserService = new CreateUserService(
       fakeUserRepository,
       fakeHashProvider,
@@ -21,30 +26,12 @@ describe("CreateUserService", () => {
       password: "123456",
     });
 
-    expect(user).toHaveProperty("id");
-  });
-
-  it("should not be able to create a new user with same email from another", async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
-    await createUserService.execute({
-      name: "John Doe",
+    const response = await createSessionService.execute({
       email: "johndoe@gmail.com",
       password: "123456",
     });
 
-    expect(
-      createUserService.execute({
-        name: "John Doe",
-        email: "johndoe@gmail.com",
-        password: "123456",
-      }),
-    ).rejects.toBeInstanceOf(AppError);
+    expect(response).toHaveProperty("token");
+    expect(response.user).toEqual(user);
   });
 });
