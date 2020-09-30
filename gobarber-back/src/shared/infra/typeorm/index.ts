@@ -1,4 +1,4 @@
-import { createConnection } from "typeorm";
+import { createConnections } from "typeorm";
 
 // as credencias de criacao estao no ormconfig.json
-createConnection();
+createConnections();
