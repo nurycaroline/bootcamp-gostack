@@ -24,22 +24,24 @@ class CreateAppointmentService {
     provider_id,
     user_id,
   }: IRequestDTO): Promise<Appointment> {
-    const appointmentsDate = startOfHour(date);
+    const appointmentDate = startOfHour(date);
 
-    if (isBefore(appointmentsDate, Date.now())) {
-      throw new AppError("You can't create an appointment on a past date.");
+    if (isBefore(appointmentDate, Date.now())) {
+      throw new AppError("You can't create an appointemnt on a past date.");
     }
 
     if (user_id === provider_id) {
       throw new AppError("You can't create an appointment with yourself.");
     }
 
-    if (getHours(appointmentsDate) < 8 || getHours(appointmentsDate) > 17) {
-      throw new AppError("You can create appointments between 8am and 5pm.");
+    if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
+      throw new AppError(
+        "You can only create appointments between 8am and 5pm",
+      );
     }
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-      appointmentsDate,
+      appointmentDate,
     );
 
     if (findAppointmentInSameDate) {
@@ -48,7 +50,7 @@ class CreateAppointmentService {
 
     const appointment = await this.appointmentsRepository.create({
       provider_id,
-      date: appointmentsDate,
+      date: appointmentDate,
       user_id,
     });
 
