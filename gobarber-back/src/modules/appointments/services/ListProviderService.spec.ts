@@ -1,35 +1,42 @@
-import FakeUserRepository from "@modules/users/repositories/fakes/FakeUserRepository";
-import ListProviderService from "./ListProviderService";
+import FakeCacheProvider from "@shared/container/providers/CacheProvider/fakes/FakeCacheProvider";
+import FakeUsersRepository from "@modules/users/repositories/fakes/FakeUserRepository";
+import ListProvidersService from "./ListProviderService";
 
-let fakeUserRepository: FakeUserRepository;
-let listProviderService: ListProviderService;
+let fakeUsersRepository: FakeUsersRepository;
+let fakeCacheProvider: FakeCacheProvider;
+let listProviders: ListProvidersService;
 
-describe("ListProviderService", () => {
+describe("ListProviders", () => {
   beforeEach(() => {
-    fakeUserRepository = new FakeUserRepository();
-    listProviderService = new ListProviderService(fakeUserRepository);
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeCacheProvider = new FakeCacheProvider();
+
+    listProviders = new ListProvidersService(
+      fakeUsersRepository,
+      fakeCacheProvider,
+    );
   });
 
   it("should be able to list the providers", async () => {
-    const user1 = await fakeUserRepository.create({
+    const user1 = await fakeUsersRepository.create({
       name: "John Doe",
-      email: "johndoe@gmail.com",
+      email: "johndoe@example.com",
       password: "123456",
     });
 
-    const user2 = await fakeUserRepository.create({
-      name: "John Tre",
-      email: "johntre@gmail.com",
+    const user2 = await fakeUsersRepository.create({
+      name: "John Trê",
+      email: "johntre@example.com",
       password: "123456",
     });
 
-    const loggedUser = await fakeUserRepository.create({
+    const loggedUser = await fakeUsersRepository.create({
       name: "John Qua",
-      email: "johnqua@gmail.com",
+      email: "johnqua@example.com",
       password: "123456",
     });
 
-    const providers = await listProviderService.execute({
+    const providers = await listProviders.execute({
       user_id: loggedUser.id,
     });
 
