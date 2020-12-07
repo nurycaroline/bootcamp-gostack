@@ -99,6 +99,10 @@ const SignIn: React.FC = () => {
               ref={formRef}
               onSubmit={handleSignIn}
               style={{ width: '100%' }}
+              initialData={{
+                email: 'nurycaroline@gmail.com',
+                password: '123456'
+              }}
             >
               <Input
                 autoCorrect={false}
