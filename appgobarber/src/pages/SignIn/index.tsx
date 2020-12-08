@@ -42,8 +42,6 @@ const SignIn: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
   const { signIn, user } = useAuth();
 
-  console.log(user);
-
   const handleSignIn = useCallback(async (data: SignInFormData) => {
     formRef.current?.setErrors({});
     try {
@@ -101,7 +99,7 @@ const SignIn: React.FC = () => {
               style={{ width: '100%' }}
               initialData={{
                 email: 'nurycaroline@gmail.com',
-                password: '123456'
+                password: '123456',
               }}
             >
               <Input

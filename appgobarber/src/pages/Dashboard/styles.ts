@@ -36,7 +36,6 @@ export const UserAvatar = styled.Image`
   width: 56px;
   height: 56px;
   border-radius: 28px;
-  border: 1px solid black;
 `;
 
 export const ProvidersList = styled(FlatList as new () => FlatList<Provider>)`
@@ -63,7 +62,6 @@ export const ProviderAvatar = styled.Image`
   width: 72px;
   height: 72px;
   border-radius: 36px;
-  border: 1px solid black;
 `;
 
 export const ProviderInfo = styled.View`
