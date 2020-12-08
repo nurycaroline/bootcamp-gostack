@@ -137,14 +137,10 @@ const CreatedAppointment: React.FC = () => {
       date.setHours(selectedHour);
       date.setMinutes(0);
 
-      await api
-        .post('appointments', {
-          providerId: selectedProvider,
-          date,
-        })
-        .then((response) => {
-          setProviders(response.data);
-        });
+      await api.post('appointments', {
+        provider_id: selectedProvider,
+        date,
+      });
 
       navigate('AppointmentCreated', { date: date.getTime() });
     } catch (error) {
